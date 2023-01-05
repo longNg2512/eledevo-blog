@@ -4,22 +4,24 @@ import PostList from '../../components/PostList'
 import Header from '../../components/Header'
 import { Add } from '@mui/icons-material'
 import { StyledFab } from './style'
-import CreateDialog from '../../components/CreateModal'
+import CreateModal from '../../components/CreateModal'
 import { useDispatch } from 'react-redux'
-import * as actions from '../../redux/actions'
+import { showCreateModal } from '../../redux/actions'
+import DeleteModal from '../../components/DeleteModal'
 
 const PostsPage = () => {
     const dispatch = useDispatch()
 
     const openShowCreateModal = useCallback(() => {
-        dispatch(actions.showModal())
+        dispatch(showCreateModal())
     }, [dispatch])
 
     return (
         <Container maxWidth="lg">
             <Header />
             <PostList />
-            <CreateDialog />
+            <CreateModal />
+            <DeleteModal />
             <StyledFab color="success" onClick={openShowCreateModal}>
                 <Add />
             </StyledFab>

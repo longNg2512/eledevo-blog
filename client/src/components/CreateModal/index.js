@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import {
     Dialog,
     DialogTitle,
@@ -10,31 +10,31 @@ import {
 } from '@mui/material'
 import { useSelector, useDispatch } from 'react-redux'
 import { modalState$ } from '../../redux/selectors'
-import { hideModal, createPost } from '../../redux/actions'
+import { hideCreateModal, createPost } from '../../redux/actions'
 
-const CreateDialog = () => {
-    const [data, setData] = React.useState({
+const CreateModal = () => {
+    const [data, setData] = useState({
         author: '',
         title: '',
         content: '',
     })
     const dispatch = useDispatch()
-    const isShow = useSelector(modalState$)
-    const onClose = React.useCallback(() => {
-        dispatch(hideModal())
+    const { showCreate } = useSelector(modalState$)
+    const onCloseCreate = useCallback(() => {
+        dispatch(hideCreateModal())
     }, [dispatch])
     const handleOnChange = e =>
         setData({
             ...data,
             [e.target.name]: e.target.value,
         })
-    const onSubmit = React.useCallback(() => {
+    const onSubmitCreate = useCallback(() => {
         dispatch(createPost.createPostRequest(data))
-        onClose()
-    }, [dispatch, data, onClose])
+        onCloseCreate()
+    }, [dispatch, data, onCloseCreate])
 
     return (
-        <Dialog open={isShow} fullWidth={true} onClose={onClose}>
+        <Dialog open={showCreate} fullWidth={true} onClose={onCloseCreate}>
             <DialogTitle>Create new post</DialogTitle>
             <DialogContent>
                 <FormControl sx={{ m: 1, width: '95%' }} variant="standard">
@@ -65,7 +65,11 @@ const CreateDialog = () => {
                 </FormControl>
             </DialogContent>
             <DialogActions sx={{ marginTop: 2 }}>
-                <Button variant="contained" color="success" onClick={onSubmit}>
+                <Button
+                    variant="contained"
+                    color="success"
+                    onClick={onSubmitCreate}
+                >
                     Create
                 </Button>
             </DialogActions>
@@ -73,4 +77,4 @@ const CreateDialog = () => {
     )
 }
 
-export default CreateDialog
+export default CreateModal

@@ -13,4 +13,9 @@ router.get('/', postControllers.getPosts)
 // @access Public
 router.post('/', postControllers.createPosts)
 
+// @route DELETE /posts
+// @desc Delete post
+// @access Public
+router.delete('/:id', postControllers.deletePost)
+
 export default router

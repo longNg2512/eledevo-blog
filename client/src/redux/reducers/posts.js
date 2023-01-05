@@ -1,39 +1,43 @@
 import { INIT_STATE } from '../../constant'
-import { getType, getPosts, createPost } from '../actions'
+import { getType, getPosts, createPost, deletePost } from '../actions'
 
 export default function postsReducers(state = INIT_STATE.posts, action) {
     switch (action.type) {
         case getType(getPosts.getPostsRequest):
+        case getType(createPost.createPostRequest):
+        case getType(deletePost.deletePostRequest):
             return {
                 ...state,
-                isLoading: false,
+                isLoading: true,
+                dataFetched: false,
+                error: false,
             }
         case getType(getPosts.getPostsSuccess):
             return {
                 ...state,
                 isLoading: false,
                 data: action.payload,
-            }
-        case getType(getPosts.getPostsFailure):
-            return {
-                ...state,
-                isLoading: false,
-            }
-        case getType(createPost.createPostRequest):
-            return {
-                ...state,
-                isLoading: true,
+                dataFetched: true,
+                error: false,
             }
         case getType(createPost.createPostSuccess):
-            return {
-                isLoading: false,
-                data: [...state.data, action.payload],
-            }
-        case getType(createPost.createPostFailure):
+        case getType(deletePost.deletePostSuccess):
             return {
                 ...state,
                 isLoading: false,
+                dataFetched: false,
+                error: false,
             }
+        case getType(getPosts.getPostsFailure):
+        case getType(createPost.createPostFailure):
+        case getType(deletePost.deletePostFailure):
+            return {
+                ...state,
+                isLoading: false,
+                dataFetched: false,
+                error: true,
+            }
+
         default:
             return state
     }

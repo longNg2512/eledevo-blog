@@ -31,8 +31,24 @@ export const createPosts = async (req, res) => {
         res.status(201).json({
             success: true,
             message: 'Create post successfully!',
-            post
+            post,
         })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            success: false,
+            message: 'Internal server error!',
+        })
+    }
+}
+
+// @route DELETE /posts
+// @desc Delete post
+// @access Public
+export const deletePost = async (req, res) => {
+    try {
+        await PostModel.findByIdAndDelete(req.params.id)
+        res.json({ success: true, message: 'Delete post successfully!' })
     } catch (error) {
         console.log(error)
         res.status(500).json({

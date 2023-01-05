@@ -13,16 +13,28 @@ function* getPostsSaga() {
 
 function* createPostSaga(action) {
     try {
-        const post = yield call(api.createPost, action.payload)
-        yield put(actions.createPost.createPostSuccess(post.data.post))
+        yield call(api.createPost, action.payload)
+        yield put(actions.createPost.createPostSuccess())
+        yield put(actions.getPosts.getPostsRequest())
     } catch (error) {
         yield put(actions.createPost.createPostFailure(error))
+    }
+}
+
+function* deletePostSaga(action) {
+    try {
+        yield call(api.deletePost, action.payload)
+        yield put(actions.deletePost.deletePostSuccess())
+        yield put(actions.getPosts.getPostsRequest())
+    } catch (error) {
+        yield put(actions.deletePost.deletePostFailure(error))
     }
 }
 
 function* rootSaga() {
     yield takeLatest(actions.getPosts.getPostsRequest, getPostsSaga)
     yield takeLatest(actions.createPost.createPostRequest, createPostSaga)
+    yield takeLatest(actions.deletePost.deletePostRequest, deletePostSaga)
 }
 
 export default rootSaga
