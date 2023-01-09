@@ -3,14 +3,18 @@ import { MenuItem, Divider } from '@mui/material'
 import { StyledMenu } from './styled'
 import { Edit, MoreHoriz, Delete } from '@mui/icons-material'
 import { useDispatch } from 'react-redux'
-import { deleteModal } from '../../redux/actions'
+import { deletePostModal, updatePostModal } from '../../redux/actions'
 
-const MenuOptions = ({ anchorEl, openMenu, handleCloseMenu, id }) => {
+const MenuOptions = ({ anchorEl, openMenu, handleCloseMenu, post }) => {
     const dispatch = useDispatch()
 
     const openShowDeleteModal = useCallback(() => {
-        dispatch(deleteModal.showDeleteModal(id))
-    }, [dispatch, id])
+        dispatch(deletePostModal.showDeletePostModal(post._id))
+    }, [dispatch, post._id])
+
+    const openShowUpdateModal = useCallback(() => {
+        dispatch(updatePostModal.showUpdatePostModal(post))
+    }, [dispatch, post])
 
     return (
         <div>
@@ -23,7 +27,13 @@ const MenuOptions = ({ anchorEl, openMenu, handleCloseMenu, id }) => {
                 open={openMenu}
                 onClose={handleCloseMenu}
             >
-                <MenuItem onClick={handleCloseMenu} disableRipple>
+                <MenuItem
+                    onClick={() => {
+                        handleCloseMenu()
+                        openShowUpdateModal()
+                    }}
+                    disableRipple
+                >
                     <Edit />
                     Edit
                 </MenuItem>

@@ -46,7 +46,7 @@ const Post = ({ post }) => {
                 <CardMedia
                     sx={{ height: 150 }}
                     image="https://images.unsplash.com/photo-1661956603025-8310b2e3036d"
-                    title="green iguana"
+                    title={post.title}
                 />
                 <CardContent>
                     <Typography variant="h5" color="textPrimary">
@@ -70,7 +70,7 @@ const Post = ({ post }) => {
                 </CardActions>
             </Card>
             <MenuOptions
-                id = {post._id}
+                post={post}
                 openMenu={openMenu}
                 anchorEl={anchorEl}
                 handleCloseMenu={handleCloseMenu}

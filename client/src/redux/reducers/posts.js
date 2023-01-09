@@ -1,11 +1,18 @@
 import { INIT_STATE } from '../../constant'
-import { getType, getPosts, createPost, deletePost } from '../actions'
+import {
+    getType,
+    getPosts,
+    createPost,
+    deletePost,
+    updatePost,
+} from '../actions'
 
 export default function postsReducers(state = INIT_STATE.posts, action) {
     switch (action.type) {
         case getType(getPosts.getPostsRequest):
         case getType(createPost.createPostRequest):
         case getType(deletePost.deletePostRequest):
+        case getType(updatePost.updatePostRequest):
             return {
                 ...state,
                 isLoading: true,
@@ -22,6 +29,7 @@ export default function postsReducers(state = INIT_STATE.posts, action) {
             }
         case getType(createPost.createPostSuccess):
         case getType(deletePost.deletePostSuccess):
+        case getType(updatePost.updatePostSuccess):
             return {
                 ...state,
                 isLoading: false,
@@ -31,6 +39,7 @@ export default function postsReducers(state = INIT_STATE.posts, action) {
         case getType(getPosts.getPostsFailure):
         case getType(createPost.createPostFailure):
         case getType(deletePost.deletePostFailure):
+        case getType(updatePost.updatePostFailure):
             return {
                 ...state,
                 isLoading: false,

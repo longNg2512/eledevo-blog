@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { modalState$ } from '../../redux/selectors'
-import { deleteModal, deletePost } from '../../redux/actions'
+import { deletePostModal, deletePost } from '../../redux/actions'
 import {
     Dialog,
     DialogTitle,
@@ -15,7 +15,7 @@ const DeleteModal = () => {
     const { showDelete, id } = useSelector(modalState$)
     const dispatch = useDispatch()
     const onCloseDelete = useCallback(() => {
-        dispatch(deleteModal.hideDeleteModal())
+        dispatch(deletePostModal.hideDeletePostModal())
     }, [dispatch])
     const onSubmitDelete = useCallback(() => {
         dispatch(deletePost.deletePostRequest(id))
@@ -36,7 +36,7 @@ const DeleteModal = () => {
                     color="error"
                     onClick={onSubmitDelete}
                 >
-                    Xoá
+                    Delete
                 </Button>
             </DialogActions>
         </Dialog>

@@ -5,8 +5,12 @@ export const INIT_STATE = {
         dataFetched: false,
         error: false,
     },
-    modal: {
+    postModal: {
         id: '',
+        author: '',
+        content: '',
+        modalTitle: '',
+        modalSubmitName: '',
         showCreate: false,
         showDelete: false,
     },

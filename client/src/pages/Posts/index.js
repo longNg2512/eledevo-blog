@@ -6,14 +6,14 @@ import { Add } from '@mui/icons-material'
 import { StyledFab } from './style'
 import CreateModal from '../../components/CreateModal'
 import { useDispatch } from 'react-redux'
-import { showCreateModal } from '../../redux/actions'
+import { showCreatePostModal } from '../../redux/actions'
 import DeleteModal from '../../components/DeleteModal'
 
 const PostsPage = () => {
     const dispatch = useDispatch()
 
     const openShowCreateModal = useCallback(() => {
-        dispatch(showCreateModal())
+        dispatch(showCreatePostModal())
     }, [dispatch])
 
     return (

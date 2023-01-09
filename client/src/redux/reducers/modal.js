@@ -1,34 +1,52 @@
 import { INIT_STATE } from '../../constant'
 import {
     getType,
-    showCreateModal,
-    hideCreateModal,
-    deleteModal,
+    showCreatePostModal,
+    hideCreatePostModal,
+    deletePostModal,
+    updatePostModal,
 } from '../actions'
 
-export default function modalReducers(state = INIT_STATE.modal, action) {
+export default function modalReducers(state = INIT_STATE.postModal, action) {
     switch (action.type) {
-        case getType(showCreateModal):
+        case getType(showCreatePostModal):
             return {
                 ...state,
                 showCreate: true,
+                modalTitle: 'Create new post',
+                modalSubmitName: 'Create',
             }
-        case getType(hideCreateModal):
+        case getType(hideCreatePostModal):
             return {
                 ...state,
                 showCreate: false,
+                id: '',
+                author: '',
+                title: '',
+                content: '',
             }
-        case getType(deleteModal.showDeleteModal):
+        case getType(deletePostModal.showDeletePostModal):
             return {
                 ...state,
                 showDelete: true,
                 id: action.payload,
             }
-        case getType(deleteModal.hideDeleteModal):
+        case getType(deletePostModal.hideDeletePostModal):
             return {
                 ...state,
                 showDelete: false,
                 id: '',
+            }
+        case getType(updatePostModal.showUpdatePostModal):
+            return {
+                ...state,
+                showCreate: true,
+                id: action.payload._id,
+                author: action.payload.author,
+                title: action.payload.title,
+                content: action.payload.content,
+                modalTitle: 'Update post',
+                modalSubmitName: 'Update',
             }
         default:
             return state

@@ -31,10 +31,21 @@ function* deletePostSaga(action) {
     }
 }
 
+function* updatePostSaga(action) {
+    try {
+        yield call(api.updatePost, action.payload)
+        yield put(actions.updatePost.updatePostSuccess())
+        yield put(actions.getPosts.getPostsRequest())
+    } catch (error) {
+        yield put(actions.updatePost.updatePostFailure(error))
+    }
+}
+
 function* rootSaga() {
     yield takeLatest(actions.getPosts.getPostsRequest, getPostsSaga)
     yield takeLatest(actions.createPost.createPostRequest, createPostSaga)
     yield takeLatest(actions.deletePost.deletePostRequest, deletePostSaga)
+    yield takeLatest(actions.updatePost.updatePostRequest, updatePostSaga)
 }
 
 export default rootSaga

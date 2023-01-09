@@ -57,3 +57,21 @@ export const deletePost = async (req, res) => {
         })
     }
 }
+
+// @route PUT /posts
+// @desc Update post
+// @access Public
+export const updatePost = async (req, res) => {
+    try {
+        const id = req.params.id
+        const { title, content, author } = req.body
+        await PostModel.findByIdAndUpdate(id, { title, content, author })
+        res.json({ success: true, message: 'Update post successfully!' })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            success: false,
+            message: 'Internal server error!',
+        })
+    }
+}

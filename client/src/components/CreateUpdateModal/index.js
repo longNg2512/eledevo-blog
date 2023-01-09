@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import {
     Dialog,
     DialogTitle,
@@ -10,7 +10,11 @@ import {
 } from '@mui/material'
 import { useSelector, useDispatch } from 'react-redux'
 import { modalState$ } from '../../redux/selectors'
-import { hideCreateModal, createPost } from '../../redux/actions'
+import {
+    hideCreatePostModal,
+    createPost,
+    updatePost,
+} from '../../redux/actions'
 
 const CreateModal = () => {
     const [data, setData] = useState({
@@ -18,24 +22,50 @@ const CreateModal = () => {
         title: '',
         content: '',
     })
+
+    const {
+        showCreate,
+        modalTitle,
+        modalSubmitName,
+        id,
+        title,
+        content,
+        author,
+    } = useSelector(modalState$)
+
+    useEffect(() => {
+        setData({
+            author: author,
+            title: title,
+            content: content,
+        })
+    }, [author, title, content])
+
     const dispatch = useDispatch()
-    const { showCreate } = useSelector(modalState$)
+
     const onCloseCreate = useCallback(() => {
-        dispatch(hideCreateModal())
+        dispatch(hideCreatePostModal())
     }, [dispatch])
+
     const handleOnChange = e =>
         setData({
             ...data,
             [e.target.name]: e.target.value,
         })
+
     const onSubmitCreate = useCallback(() => {
-        dispatch(createPost.createPostRequest(data))
+        if (!id) {
+            dispatch(createPost.createPostRequest(data))
+        } else {
+            dispatch(updatePost.updatePostRequest({data, id}))
+        }
+
         onCloseCreate()
-    }, [dispatch, data, onCloseCreate])
+    }, [dispatch, data, onCloseCreate, id])
 
     return (
         <Dialog open={showCreate} fullWidth={true} onClose={onCloseCreate}>
-            <DialogTitle>Create new post</DialogTitle>
+            <DialogTitle>{modalTitle}</DialogTitle>
             <DialogContent>
                 <FormControl sx={{ m: 1, width: '95%' }} variant="standard">
                     <TextField
@@ -44,6 +74,7 @@ const CreateModal = () => {
                         label="Author"
                         multiline
                         variant="standard"
+                        value={data.author}
                         onChange={handleOnChange}
                     />
                     <TextField
@@ -52,6 +83,7 @@ const CreateModal = () => {
                         label="Title*"
                         multiline
                         variant="standard"
+                        value={data.title}
                         onChange={handleOnChange}
                     />
                     <TextField
@@ -60,6 +92,7 @@ const CreateModal = () => {
                         label="Content*"
                         multiline
                         variant="standard"
+                        value={data.content}
                         onChange={handleOnChange}
                     />
                 </FormControl>
@@ -70,7 +103,7 @@ const CreateModal = () => {
                     color="success"
                     onClick={onSubmitCreate}
                 >
-                    Create
+                    {modalSubmitName}
                 </Button>
             </DialogActions>
         </Dialog>

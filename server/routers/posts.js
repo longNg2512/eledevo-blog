@@ -18,4 +18,9 @@ router.post('/', postControllers.createPosts)
 // @access Public
 router.delete('/:id', postControllers.deletePost)
 
+// @route PUT /posts
+// @desc Update post
+// @access Public
+router.put('/:id', postControllers.updatePost)
+
 export default router
