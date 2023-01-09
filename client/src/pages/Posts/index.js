@@ -4,7 +4,7 @@ import PostList from '../../components/PostList'
 import Header from '../../components/Header'
 import { Add } from '@mui/icons-material'
 import { StyledFab } from './style'
-import CreateModal from '../../components/CreateModal'
+import CreateUpdateModal from '../../components/CreateUpdateModal'
 import { useDispatch } from 'react-redux'
 import { showCreatePostModal } from '../../redux/actions'
 import DeleteModal from '../../components/DeleteModal'
@@ -20,7 +20,7 @@ const PostsPage = () => {
         <Container maxWidth="lg">
             <Header />
             <PostList />
-            <CreateModal />
+            <CreateUpdateModal />
             <DeleteModal />
             <StyledFab color="success" onClick={openShowCreateModal}>
                 <Add />

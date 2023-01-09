@@ -16,7 +16,7 @@ import {
     updatePost,
 } from '../../redux/actions'
 
-const CreateModal = () => {
+const CreateUpdateModal = () => {
     const [data, setData] = useState({
         author: '',
         title: '',
@@ -57,7 +57,7 @@ const CreateModal = () => {
         if (!id) {
             dispatch(createPost.createPostRequest(data))
         } else {
-            dispatch(updatePost.updatePostRequest({data, id}))
+            dispatch(updatePost.updatePostRequest({ data, id }))
         }
 
         onCloseCreate()
@@ -110,4 +110,4 @@ const CreateModal = () => {
     )
 }
 
-export default CreateModal
+export default CreateUpdateModal
