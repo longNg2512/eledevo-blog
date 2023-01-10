@@ -23,4 +23,9 @@ router.delete('/:id', postControllers.deletePost)
 // @access Public
 router.put('/:id', postControllers.updatePost)
 
+// @route GET /posts/search
+// @desc Search posts
+// @access Public
+router.get('/search', postControllers.searchPosts)
+
 export default router

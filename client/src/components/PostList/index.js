@@ -8,7 +8,7 @@ import * as actions from '../../redux/actions'
 const PostList = () => {
     const dispatch = useDispatch()
     const posts = useSelector(postsState$)
- 
+
     React.useEffect(() => {
         dispatch(actions.getPosts.getPostsRequest())
     }, [dispatch])

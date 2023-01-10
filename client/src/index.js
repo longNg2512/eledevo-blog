@@ -1,23 +1,16 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App'
-import logger from 'redux-logger'
+import { RouterProvider } from 'react-router-dom'
+import router from './router/index'
 import { Provider } from 'react-redux'
-import { applyMiddleware, createStore } from 'redux'
-import createSagaMiddleware from 'redux-saga'
-import rootReducer from './redux/reducers'
-import rootSaga from './redux/sagas'
-
-const sagaMiddleware = createSagaMiddleware()
-const store = createStore(rootReducer, applyMiddleware(sagaMiddleware, logger))
-sagaMiddleware.run(rootSaga)
+import store from './redux/store/config'
 
 const container = document.getElementById('root')
 const root = ReactDOM.createRoot(container)
 root.render(
     <div>
         <Provider store={store}>
-            <App />
+            <RouterProvider router={router} />
         </Provider>
     </div>,
 )

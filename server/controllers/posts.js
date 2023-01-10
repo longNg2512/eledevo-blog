@@ -75,3 +75,21 @@ export const updatePost = async (req, res) => {
         })
     }
 }
+
+// @route GET /posts/search
+// @desc Search posts
+// @access Public
+export const searchPosts = async (req, res) => {
+    try {
+        const posts = await PostModel.find({
+            title: { $regex: req.query.textSearch, $options: 'i' },
+        })
+        res.json({ success: true, message: 'Search', posts })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            success: false,
+            message: 'Internal server error!',
+        })
+    }
+}

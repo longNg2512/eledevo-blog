@@ -41,11 +41,21 @@ function* updatePostSaga(action) {
     }
 }
 
+function* searchPostsSaga(action) {
+    try {
+        const posts = yield call(api.searchPosts, action.payload)
+        yield put(actions.searchPosts.searchPostsSuccess(posts.data.posts))
+    } catch (error) {
+        yield put(actions.searchPosts.searchPostsFailure(error))
+    }
+}
+
 function* rootSaga() {
     yield takeLatest(actions.getPosts.getPostsRequest, getPostsSaga)
     yield takeLatest(actions.createPost.createPostRequest, createPostSaga)
     yield takeLatest(actions.deletePost.deletePostRequest, deletePostSaga)
     yield takeLatest(actions.updatePost.updatePostRequest, updatePostSaga)
+    yield takeLatest(actions.searchPosts.searchPostsRequest, searchPostsSaga)
 }
 
 export default rootSaga

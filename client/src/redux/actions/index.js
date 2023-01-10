@@ -28,6 +28,12 @@ export const deletePost = createActions({
     deletePostFailure: err => err,
 })
 
+export const searchPosts = createActions({
+    searchPostsRequest: payload => payload,
+    searchPostsSuccess: payload => payload,
+    searchPostsFailure: err => err,
+})
+
 export const showCreatePostModal = createAction('showCreatePostModal')
 export const hideCreatePostModal = createAction('hideCreatePostModal')
 

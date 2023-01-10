@@ -5,6 +5,7 @@ import {
     createPost,
     deletePost,
     updatePost,
+    searchPosts,
 } from '../actions'
 
 export default function postsReducers(state = INIT_STATE.posts, action) {
@@ -13,6 +14,7 @@ export default function postsReducers(state = INIT_STATE.posts, action) {
         case getType(createPost.createPostRequest):
         case getType(deletePost.deletePostRequest):
         case getType(updatePost.updatePostRequest):
+        case getType(searchPosts.searchPostsRequest):
             return {
                 ...state,
                 isLoading: true,
@@ -20,6 +22,7 @@ export default function postsReducers(state = INIT_STATE.posts, action) {
                 error: false,
             }
         case getType(getPosts.getPostsSuccess):
+        case getType(searchPosts.searchPostsSuccess):
             return {
                 ...state,
                 isLoading: false,
@@ -30,6 +33,7 @@ export default function postsReducers(state = INIT_STATE.posts, action) {
         case getType(createPost.createPostSuccess):
         case getType(deletePost.deletePostSuccess):
         case getType(updatePost.updatePostSuccess):
+        case getType(searchPosts.searchPostsFailure):
             return {
                 ...state,
                 isLoading: false,
