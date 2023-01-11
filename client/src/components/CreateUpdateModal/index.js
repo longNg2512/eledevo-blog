@@ -78,7 +78,7 @@ const CreateUpdateModal = () => {
                         onChange={handleOnChange}
                     />
                     <TextField
-                        sx={{ marginTop: 5 }}
+                        sx={{ mt: 5 }}
                         name="title"
                         label="Title*"
                         multiline
@@ -87,7 +87,7 @@ const CreateUpdateModal = () => {
                         onChange={handleOnChange}
                     />
                     <TextField
-                        sx={{ marginTop: 5 }}
+                        sx={{ mt: 5 }}
                         name="content"
                         label="Content*"
                         multiline
@@ -97,7 +97,7 @@ const CreateUpdateModal = () => {
                     />
                 </FormControl>
             </DialogContent>
-            <DialogActions sx={{ marginTop: 2 }}>
+            <DialogActions sx={{ mt: 2 }}>
                 <Button
                     variant="contained"
                     color="success"
