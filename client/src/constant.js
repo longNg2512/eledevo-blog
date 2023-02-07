@@ -9,6 +9,8 @@ export const INIT_STATE = {
         id: '',
         author: '',
         content: '',
+        title: '',
+        image: [],
         modalTitle: '',
         modalSubmitName: '',
         showCreate: false,

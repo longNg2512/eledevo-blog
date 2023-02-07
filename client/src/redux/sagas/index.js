@@ -12,8 +12,13 @@ function* getPostsSaga() {
 }
 
 function* createPostSaga(action) {
+    const formData = new FormData()
+    formData.append('title', action.payload.data.title)
+    formData.append('content', action.payload.data.content)
+    formData.append('author', action.payload.data.author)
+    action.payload.localImage.forEach(i => formData.append('files', i))
     try {
-        yield call(api.createPost, action.payload)
+        yield call(api.createPost, formData)
         yield put(actions.createPost.createPostSuccess())
         yield put(actions.getPosts.getPostsRequest())
     } catch (error) {
@@ -32,8 +37,14 @@ function* deletePostSaga(action) {
 }
 
 function* updatePostSaga(action) {
+    const formData = new FormData()
+    formData.append('title', action.payload.data.title)
+    formData.append('content', action.payload.data.content)
+    formData.append('author', action.payload.data.author)
+    action.payload.localImage.forEach(i => formData.append('files', i))
+
     try {
-        yield call(api.updatePost, action.payload)
+        yield call(api.updatePost, { formData, id: action.payload.id })
         yield put(actions.updatePost.updatePostSuccess())
         yield put(actions.getPosts.getPostsRequest())
     } catch (error) {

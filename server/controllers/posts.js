@@ -1,4 +1,5 @@
 import PostModel from '../models/PostModel.js'
+import { unlink } from 'node:fs/promises'
 
 // @route GET /posts
 // @desc GET posts
@@ -25,9 +26,15 @@ export const getPosts = async (req, res) => {
 // @access Public
 export const createPosts = async (req, res) => {
     try {
-        const newPost = req.body
-        const post = new PostModel(newPost)
-        await post.save()
+        const { author, title, content } = req.body
+        const image = []
+        if (req.files) {
+            req.files.forEach(element => {
+                const imageUrl = `http://localhost:${process.env.PORT}/${element.filename}`
+                image.push(imageUrl)
+            })
+        }
+        const post = await PostModel.create({ author, title, content, image })
         res.status(201).json({
             success: true,
             message: 'Create post successfully!',
@@ -47,7 +54,12 @@ export const createPosts = async (req, res) => {
 // @access Public
 export const deletePost = async (req, res) => {
     try {
-        await PostModel.findByIdAndDelete(req.params.id)
+        const post = await PostModel.findByIdAndDelete(req.params.id)
+        post.image.forEach(element => {
+            unlink(`media/${element.slice(22)}`, error => {
+                if (error) throw error
+            })
+        })
         res.json({ success: true, message: 'Delete post successfully!' })
     } catch (error) {
         console.log(error)
@@ -65,7 +77,29 @@ export const updatePost = async (req, res) => {
     try {
         const id = req.params.id
         const { title, content, author } = req.body
-        await PostModel.findByIdAndUpdate(id, { title, content, author })
+        const image = []
+        if (req.files) {
+            req.files.forEach(element => {
+                const imageUrl = `http://localhost:${process.env.PORT}/${element.filename}`
+                image.push(imageUrl)
+            })
+        }
+        const oldPost = await PostModel.findById(id)
+        if (image.length === 0) {
+            await PostModel.findByIdAndUpdate(id, { title, content, author })
+        } else {
+            await PostModel.findByIdAndUpdate(id, {
+                title,
+                content,
+                author,
+                image,
+            })
+            oldPost.image.forEach(element => {
+                unlink(`media/${element.slice(22)}`, error => {
+                    if (error) throw error
+                })
+            })
+        }
         res.json({ success: true, message: 'Update post successfully!' })
     } catch (error) {
         console.log(error)

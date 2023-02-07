@@ -24,6 +24,7 @@ export default function modalReducers(state = INIT_STATE.postModal, action) {
                 author: '',
                 title: '',
                 content: '',
+                image: '',
             }
         case getType(deletePostModal.showDeletePostModal):
             return {
@@ -45,6 +46,7 @@ export default function modalReducers(state = INIT_STATE.postModal, action) {
                 author: action.payload.author,
                 title: action.payload.title,
                 content: action.payload.content,
+                image: action.payload.image,
                 modalTitle: 'Update post',
                 modalSubmitName: 'Update',
             }

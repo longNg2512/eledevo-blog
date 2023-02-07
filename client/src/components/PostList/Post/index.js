@@ -43,11 +43,14 @@ const Post = ({ post }) => {
                         </IconButton>
                     }
                 />
-                <CardMedia
-                    sx={{ height: 150 }}
-                    image="https://images.unsplash.com/photo-1661956603025-8310b2e3036d"
-                    title={post.title}
-                />
+                {post.image.map(image => (
+                    <CardMedia
+                        key={image}
+                        sx={{ height: 150 }}
+                        image={image}
+                        title={post.title}
+                    />
+                ))}
                 <CardContent>
                     <Typography variant="h5" color="textPrimary">
                         {post.title}

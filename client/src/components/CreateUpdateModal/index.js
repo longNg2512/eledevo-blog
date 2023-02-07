@@ -7,7 +7,9 @@ import {
     FormControl,
     TextField,
     Button,
+    IconButton,
 } from '@mui/material'
+import PhotoCamera from '@mui/icons-material/PhotoCamera'
 import { useSelector, useDispatch } from 'react-redux'
 import { modalState$ } from '../../redux/selectors'
 import {
@@ -22,6 +24,8 @@ const CreateUpdateModal = () => {
         title: '',
         content: '',
     })
+    const [localImage, setLocalImage] = useState([])
+    const [imagePreview, setImagePreview] = useState([])
 
     const {
         showCreate,
@@ -31,6 +35,7 @@ const CreateUpdateModal = () => {
         title,
         content,
         author,
+        image,
     } = useSelector(modalState$)
 
     useEffect(() => {
@@ -39,12 +44,15 @@ const CreateUpdateModal = () => {
             title: title,
             content: content,
         })
-    }, [author, title, content])
+        setImagePreview(image)
+    }, [author, title, content, image])
 
     const dispatch = useDispatch()
 
     const onCloseCreate = useCallback(() => {
         dispatch(hideCreatePostModal())
+        setImagePreview([])
+        setLocalImage([])
     }, [dispatch])
 
     const handleOnChange = e =>
@@ -55,13 +63,25 @@ const CreateUpdateModal = () => {
 
     const onSubmitCreate = useCallback(() => {
         if (!id) {
-            dispatch(createPost.createPostRequest(data))
+            dispatch(createPost.createPostRequest({ data, localImage }))
         } else {
-            dispatch(updatePost.updatePostRequest({ data, id }))
+            dispatch(updatePost.updatePostRequest({ data, id, localImage }))
         }
 
         onCloseCreate()
-    }, [dispatch, data, onCloseCreate, id])
+    }, [dispatch, data, onCloseCreate, id, localImage])
+
+    const onChangeUploadFile = e => {
+        const { files } = e.target
+        console.log([...[...files]])
+        let filePreview = []
+        let localFile = []
+        const selected = [...[...files]]
+        selected.forEach(i => filePreview.push(URL.createObjectURL(i)))
+        selected.forEach(i => localFile.push(i))
+        setImagePreview(filePreview)
+        setLocalImage(localFile)
+    }
 
     return (
         <Dialog open={showCreate} fullWidth={true} onClose={onCloseCreate}>
@@ -96,6 +116,22 @@ const CreateUpdateModal = () => {
                         onChange={handleOnChange}
                     />
                 </FormControl>
+
+                <IconButton
+                    sx={{ mt: 2 }}
+                    color="primary"
+                    aria-label="upload picture"
+                    component="label"
+                >
+                    <input
+                        hidden
+                        accept="image/*"
+                        type="file"
+                        onChange={onChangeUploadFile}
+                    />
+                    <PhotoCamera />
+                </IconButton>
+                <img src={imagePreview} alt="" width="95%" />
             </DialogContent>
             <DialogActions sx={{ mt: 2 }}>
                 <Button
